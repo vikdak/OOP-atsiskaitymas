@@ -26,6 +26,7 @@ class Router {
                 $controller->create();
             if ($url == '/electricities' && $method == 'POST')
                 $controller->sum();
+
 //            if ($url == '/electricities' && $method == 'POST')
 //                $controller->discount();
         }
