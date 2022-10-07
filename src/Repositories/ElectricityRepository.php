@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace Viktorija\Atsiskaitymas\Repositories;
 
 
@@ -16,11 +17,35 @@ class ElectricityRepository
 
     }
     public function create(array $fields) {
-        echo 'Duomenys patvirtinti';
         $name=$fields['amount'];
         $price=$fields['price'];
         $tariff=$fields['tariff'];
+
+
         $month=$fields['month'];
+
+
+        $lastMonth= date('Y-m', strtotime("-1 month"));
+        $dateNowObject=New \DateTime('now');
+        $lastDay=date('Y-m-t',strtotime($month));
+        if($month<$lastMonth){
+        $day_diff = $dateNowObject->diff(New \DateTime($lastDay))->format("%a");
+            throw new \Exception("Vėluoji mokėti mokesčius $day_diff dienas");
+        }elseif ((date('Y-m-d')) < (date('Y-m-t',strtotime($month)))){
+            throw new \Exception("Mokesčius moki per anksti");
+            die();
+        }else{
+            echo 'Duomenys suvesti';
+        }
+
+//        if (!($month===$lastMonth)){
+//            if($month===$thisMonth){
+//                if(!($dateNow===$lastDayOfThisMonth)||($month))
+//                {
+//                    echo"moki per anksti";
+////                    throw new \Exception("moki per anksti");
+
+
         $electricities = $this->getAll();
         $electricities[] = [
             'amount' => $name,

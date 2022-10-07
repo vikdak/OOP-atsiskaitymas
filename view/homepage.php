@@ -23,7 +23,7 @@
         </div>
         <div>
             <label for="month">Laikotarpis </label>
-            <input type="date" name="month" id="month" value="2022-01-30">
+            <input type="month" name="month" id="month" value="2022-01">
         </div>
         <input style="color: darkgreen; font-weight: bold" type="submit" value="PATVIRTINTI">
     </form>
