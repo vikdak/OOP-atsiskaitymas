@@ -4,8 +4,9 @@ namespace Viktorija\Atsiskaitymas\Framework;
 
 use Viktorija\Atsiskaitymas\Controllers\ElectricityController;
 use Viktorija\Atsiskaitymas\Controllers\HomepageController;
+use Viktorija\Atsiskaitymas\Interfaces\RouterInterface;
 
-class Router
+class Router implements RouterInterface
 {
     private $router = [];
 

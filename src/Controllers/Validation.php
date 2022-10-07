@@ -3,9 +3,11 @@ declare(strict_types=1);
 
 namespace Viktorija\Atsiskaitymas\Controllers;
 
-class Validation
+use Viktorija\Atsiskaitymas\Interfaces\ValidationInterface;
+
+class Validation implements ValidationInterface
 {
-    public static function isValid($month)
+    public static function isValid(string $month)
     {
         $lastMonth = date('Y-m', strtotime("-1 month"));
         $dateNowObject = new \DateTime('now');

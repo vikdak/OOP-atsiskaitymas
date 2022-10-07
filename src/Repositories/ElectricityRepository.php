@@ -4,8 +4,9 @@ declare(strict_types=1);
 namespace Viktorija\Atsiskaitymas\Repositories;
 
 use Viktorija\Atsiskaitymas\Controllers\Validation;
+use Viktorija\Atsiskaitymas\Interfaces\ElectricityRepositoryInterface;
 
-class ElectricityRepository
+class ElectricityRepository implements ElectricityRepositoryInterface
 {
 
     public function getAll(): array
@@ -34,7 +35,7 @@ class ElectricityRepository
         $this->saveToFile($electricities);
     }
 
-    public function sum($electricities)
+    public function sum(array $electricities)
     {
         $sumDay = $this->sumDay($electricities);
         $sumNight = $this->sumNight($electricities);
@@ -61,7 +62,7 @@ class ElectricityRepository
         return $sumNight;
     }
 
-    public function sumDay($electricities)
+    public function sumDay(array $electricities)
     {
         $sumDay = 0;
         foreach ($electricities as $key => $electricity) {
@@ -74,7 +75,7 @@ class ElectricityRepository
         return $sumDay;
     }
 
-    public function delete(array $fields)
+    public function delete(array $fields): void
     {
         $electricities = $this->getAll();
         foreach ($electricities as $key=>$electricity){
