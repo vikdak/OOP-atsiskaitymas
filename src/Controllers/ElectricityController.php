@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Viktorija\Atsiskaitymas\Controllers;
 
@@ -12,10 +13,12 @@ class ElectricityController
 
     public function list()
     {
-        $sum=0;
+        $sum = 0;
         $electricities = $this->repository->getAll();
-        require 'view/list.php';
-
+        $sum = $this->repository->sum($electricities);
+        $sumDay = $this->repository->sumDay($electricities);
+        $sumNight = $this->repository->sumNight($electricities);
+        require 'view/sum.php';
     }
 
     public function create()
@@ -23,23 +26,10 @@ class ElectricityController
         $this->repository->create($_POST);
     }
 
-    public function sum()
+    public function delete()
     {
-        $electricities = $this->repository->getAll();
-        $sum = $this->repository->sum();
-        $sumDay=$this->repository->sumDay();
-        $sumNight=$this->repository->sumNight();
-        require 'view/sum.php';
-
+        $this->repository->delete($_POST);
+        require 'view/homepage.php';
     }
-
-//    public function discount($sum)
-//    {
-//        $inventories = $this->repository->getAll();
-//        $sum = $this->repository->sum($inventories);
-//        $discountedSum = $this->repository->discount($sum);
-//        require 'view/discount.php';
-//
-//    }
 
 }
