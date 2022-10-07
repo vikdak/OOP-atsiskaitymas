@@ -27,20 +27,8 @@
             </tbody>
         </table>
         <table>
-            <p>Mokėtina suma už praeitą mėnesį:</p>
-            <tr>
-                <td>Už naktinį tarifą:</td>
-                <td><?php echo $sumNight ?></td>
-            </tr>
-            <tr>
-                <td>Už dieninį tarifą:</td>
-                <td><?php echo $sumDay ?></td>
-            </tr>
-            <tr>
-                <td>Bendra suma, Eur:</td>
-                <td><?php echo $sum ?></td>
-            </tr>
-        </table>
+            <a style="color: green; font-size: 25px; font-weight: bold" href="/electricities">MOKĖTINA SUMA:</a>
+
     </div>
 </div>
 </body>

@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Viktorija\Atsiskaitymas\Repositories;
 
-
+use Viktorija\Atsiskaitymas\Controllers\Validation;
 
 class ElectricityRepository
 {
@@ -20,32 +20,7 @@ class ElectricityRepository
         $name=$fields['amount'];
         $price=$fields['price'];
         $tariff=$fields['tariff'];
-
-
-        $month=$fields['month'];
-
-
-        $lastMonth= date('Y-m', strtotime("-1 month"));
-        $dateNowObject=New \DateTime('now');
-        $lastDay=date('Y-m-t',strtotime($month));
-        if($month<$lastMonth){
-        $day_diff = $dateNowObject->diff(New \DateTime($lastDay))->format("%a");
-            throw new \Exception("Vėluoji mokėti mokesčius $day_diff dienas");
-        }elseif ((date('Y-m-d')) < (date('Y-m-t',strtotime($month)))){
-            throw new \Exception("Mokesčius moki per anksti");
-            die();
-        }else{
-            echo 'Duomenys suvesti';
-        }
-
-//        if (!($month===$lastMonth)){
-//            if($month===$thisMonth){
-//                if(!($dateNow===$lastDayOfThisMonth)||($month))
-//                {
-//                    echo"moki per anksti";
-////                    throw new \Exception("moki per anksti");
-
-
+        $month=Validation::isValid($fields['month']);
         $electricities = $this->getAll();
         $electricities[] = [
             'amount' => $name,
@@ -53,10 +28,9 @@ class ElectricityRepository
             'tariff'=>$tariff,
             'month' =>$month,
         ];
+
         $this->saveToFile($electricities);
     }
-
-
 
     public function sum(){
         $sumDay=$this->sumDay();
@@ -66,6 +40,7 @@ class ElectricityRepository
     }
 
     private function saveToFile(array $electricities){
+
         $content=json_encode($electricities);
         file_put_contents('data/electricity.json', $content);
     }
@@ -109,7 +84,7 @@ class ElectricityRepository
    private function priviousMonthElectricities(){
         $electricities = $this->recreate();
         foreach ($electricities as $key=>$electricity){
-            $previousMonthDate=date('Y-m-d', strtotime("last day of -1 month"));
+            $previousMonthDate=date('Y-m', strtotime(" -1 month"));
                 if(array_key_exists($previousMonthDate, $electricities)){
                     return $electricities[$previousMonthDate];
             }
@@ -131,5 +106,7 @@ class ElectricityRepository
 /*<input type="hidden" name="id" value="<?php echo $key; ?>">*/
 //<input type="submit"  value="DELETE">
 //</form>
+
+
 
 }

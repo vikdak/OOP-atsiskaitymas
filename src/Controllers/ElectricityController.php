@@ -12,11 +12,8 @@ class ElectricityController
 
     public function list()
     {
-        $sum = 0;
+        $sum=0;
         $electricities = $this->repository->getAll();
-        $sum = $this->repository->sum();
-        $sumDay=$this->repository->sumDay();
-        $sumNight=$this->repository->sumNight();
         require 'view/list.php';
 
     }
@@ -26,13 +23,15 @@ class ElectricityController
         $this->repository->create($_POST);
     }
 
-//    public function sum()
-//    {
-//        $electricities = $this->repository->getAll();
-//
-//        require 'view/sum.php';
-//
-//    }
+    public function sum()
+    {
+        $electricities = $this->repository->getAll();
+        $sum = $this->repository->sum();
+        $sumDay=$this->repository->sumDay();
+        $sumNight=$this->repository->sumNight();
+        require 'view/sum.php';
+
+    }
 
 //    public function discount($sum)
 //    {
