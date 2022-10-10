@@ -1,0 +1,15 @@
+{
+    "name": "viktorija/atsiskaitymas",
+    "autoload": {
+        "psr-4": {
+            "Viktorija\\Atsiskaitymas\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "vikdak",
+            "email": "viktorija.daktariene@gmail.com"
+        }
+    ],
+    "require": {}
+}
