@@ -1,112 +1,88 @@
 <?php
 declare(strict_types=1);
+
 namespace Viktorija\Atsiskaitymas\Repositories;
 
 use Viktorija\Atsiskaitymas\Controllers\Validation;
+use Viktorija\Atsiskaitymas\Interfaces\ElectricityRepositoryInterface;
 
-class ElectricityRepository
+class ElectricityRepository implements ElectricityRepositoryInterface
 {
 
-    public function getAll():array
+    public function getAll(): array
     {
-        $electricities=json_decode(file_get_contents('./data/electricity.json', true), true);
-        if($electricities===NULL){
-            $electricities=[];
+        $electricities = json_decode(file_get_contents('./data/electricity.json', true), true);
+        if ($electricities === NULL) {
+            $electricities = [];
         };
         return $electricities;
-
     }
-    public function create(array $fields) {
-        $name=$fields['amount'];
-        $price=$fields['price'];
-        $tariff=$fields['tariff'];
-        $month=Validation::isValid($fields['month']);
+
+    public function create(array $fields):void
+    {
+        $name = $fields['amount'];
+        $price = $fields['price'];
+        $tariff = $fields['tariff'];
+        $month = Validation::isValid($fields['month']);
         $electricities = $this->getAll();
         $electricities[] = [
             'amount' => $name,
-            'price'=> $price,
-            'tariff'=>$tariff,
-            'month' =>$month,
+            'price' => $price,
+            'tariff' => $tariff,
+            'month' => $month,
         ];
 
         $this->saveToFile($electricities);
     }
 
-    public function sum(){
-        $sumDay=$this->sumDay();
-        $sumNight=$this->sumNight();
-        $sum=$sumDay+$sumNight;
+    public function sum(array $electricities)
+    {
+        $sumDay = $this->sumDay($electricities);
+        $sumNight = $this->sumNight($electricities);
+        $sum = $sumDay + $sumNight;
         return $sum;
     }
 
-    private function saveToFile(array $electricities){
-
-        $content=json_encode($electricities);
+    private function saveToFile(array $electricities):void
+    {
+        $content = json_encode($electricities);
         file_put_contents('data/electricity.json', $content);
     }
-    public function sumNight(){
-        $previousMonthElectricities=$this->priviousMonthElectricities();
-        foreach ($previousMonthElectricities as $key=>$priviousMonthElectricity){
-            if(array_key_exists('tariff', $priviousMonthElectricity)){
-                if(in_array('Naktinis', $priviousMonthElectricity)) {
-                    $sumNight = (float)$priviousMonthElectricity['price'] * (float)$priviousMonthElectricity['amount'];
+
+    public function sumNight(array $electricities)
+    {
+        $sumNight = 0;
+        foreach ($electricities as $key => $electricity) {
+            if (array_key_exists('tariff', $electricity)) {
+                if (in_array('Naktinis', $electricity)) {
+                    $sumNight = (float)$electricity['price'] * (float)$electricity['amount'];
                 }
             }
         }
         return $sumNight;
     }
 
-    public function sumDay(){
-        $previousMonthElectricities=$this->priviousMonthElectricities();
-        foreach ($previousMonthElectricities as $key=>$priviousMonthElectricity){
-            if(array_key_exists('tariff', $priviousMonthElectricity)){
-                if(in_array('Dieninis', $priviousMonthElectricity)) {
-                    $sumDay = (float)$priviousMonthElectricity['price'] * (float)$priviousMonthElectricity['amount'];
+    public function sumDay(array $electricities)
+    {
+        $sumDay = 0;
+        foreach ($electricities as $key => $electricity) {
+            if (array_key_exists('tariff', $electricity)) {
+                if (in_array('Dieninis', $electricity)) {
+                    $sumDay = (float)$electricity['price'] * (float)$electricity['amount'];
                 }
             }
         }
         return $sumDay;
     }
 
-    private function recreate(){
+    public function delete(array $fields): void
+    {
         $electricities = $this->getAll();
-        $groupedElectricities = [];
-        foreach ($electricities as $key => $value) {
-            $month = $value['month'];
-            if (!isset($groupedElectricities[$month])) {
-                $groupedElectricities[$month] = [];
-            }
-            $groupedElectricities[$month][] = $value;
-        }
-        return $groupedElectricities;
-    }
-
-   private function priviousMonthElectricities(){
-        $electricities = $this->recreate();
         foreach ($electricities as $key=>$electricity){
-            $previousMonthDate=date('Y-m', strtotime(" -1 month"));
-                if(array_key_exists($previousMonthDate, $electricities)){
-                    return $electricities[$previousMonthDate];
-            }
+            if (isset($electricities[$key]) ){
+                unset($electricities[$key]);
+            };
         }
+        $this->saveToFile($electricities);
     }
-
-//    public function discount($sum){
-//        if(isset($_POST['discount'])){
-//            $discountedSum=$sum*0.8;
-//        }
-//        return $discountedSum;
-//
-//
-//
-//    }
-
-//<form method="POST" action="./delete.php">
-//
-/*<input type="hidden" name="id" value="<?php echo $key; ?>">*/
-//<input type="submit"  value="DELETE">
-//</form>
-
-
-
 }

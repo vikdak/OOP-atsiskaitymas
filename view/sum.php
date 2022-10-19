@@ -27,7 +27,7 @@
             </tbody>
         </table>
         <table>
-            <a style="color: green; font-size: 25px; font-weight: bold" href="/electricities">MOKĖTINA SUMA UŽ PRAEITĄ MĖNESĮ:</a>
+            <p>MOKĖTINA SUMA:</p>
             <tr>
                 <td>Už naktinį tarifą:</td>
                 <td><?php echo $sumNight ?></td>
@@ -42,8 +42,8 @@
             </tr>
         </table>
         <form method="POST" action="/electricities">
-            <input type="hidden" name="_method" value="pay">
-            <input type="submit" name="button"  value="DEKLARUOTI IR SUMOKĖTI">
+            <input type="hidden" name="_method" value="delete">
+            <input type="submit" value="DEKLARUOTI IR SUMOKĖTI">
         </form>
     </div>
 </div>

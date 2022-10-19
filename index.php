@@ -3,8 +3,6 @@ require 'vendor/autoload.php';
 use Viktorija\Atsiskaitymas\Framework\DIContainer;
 use Viktorija\Atsiskaitymas\Framework\Router;
 
-
-
 try {
     $container = new DIContainer();
     $router = $container->get(Router::class);
