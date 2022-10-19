@@ -1,0 +1,95 @@
+1.	Kuo skiriasi abstrakti klasė nuo įprastos? Įvardinkite du pagrindinius skirtumus/savybes.
+-	Tai klasė pritaikyta paveldėjimui.
+-	Abstrakti klasė negali būti inicializuota – pirmiausia turi būti aprašyta vaikinė klasė, kuri paveldėtų abstrakčiąją klasę ir implementuotų abstrakčius metodus. Vaikinė klasė gali būti inicializuota.
+
+2.	Kokie yra PHP metodų/savybių matomumo lygiai. Trumpai juos aprašykite.
+Matomumai gali būti private, public, protected.
+Public - galima pasiekti metodus ir savybes klasės viduje ir už klasės ribų.
+Protected - galima pasiekti metodus ir savybes klasės viduje ir paveldinčioje klasėje.
+Private - galima pasiekti metodus ir savybes tik tos klasės viduje.
+
+3.	Kokia yra keyword’o “break” paskirtis? Kur jis dažniausiai naudojamas?
+“Break” –  sustabdo ciklą, kai sąlyga atitinka numatytąją. Sekančioje iteracijoje ciklas nebetęsiamas. Naudojama cikluose for, while, foreach.
+
+4.	Kokia yra keyword’o “continue” paskirtis? Kur jis dažniausiai yra naudojamas?
+“Continue” – sustabdo ciklą, kai sąlyga atitinka numatytąją. Sekančioje iteracijoje ciklas tęsiamas toliau. Naudojama cikluose for, while, foreach.
+
+5.	Įvardinkinte jums žinomas su slaptažodžių hash’avimu susijusias PHP funkcijas. Trumpai paaiškinkite kokia yra jų paskirtis.
+md5($string), sha1($string).
+hash’avimo funkcijos paverčia teksto turinį į raidžių ir skaičių kratinį. Skirta užkoduoti privačius, slaptus duomenis.
+
+6.	Kas yra interfeisas? Trumpai apibūdinkite kam jis yra skirtas.
+Interfeisas yra šablonas, nusakantis kokius metodus ir savybės turės turėti implementuojanti klasė. Interfeisai apibrėžiami panašiai kaip klasės, tik vietoje žodžio class, naudojamas interface. Interfeiso metodai yra išskirtiniai tuo, kad juose negali būti logikos – jie turi būti tušti. Metodų matomumas gali būti tik public.
+
+7.	Kas yra extendinama, o kas implementuojama?
+Extendinti gali vaikinė klasė tėvinę klasę ir pasirinkti, kokius norės naudoti tėvinės klasės metodus. Tuo tarpu kai yra implementuojama klasė, tai implementuojanti klasė turi naudoti visus aprašytus implementuojamos klasės metodus ir savybes.
+
+8.	Kuo skiriasi klasės statinis kintamasis nuo klasės konstantos?
+Klasės konstantos reikšmė negali būti keičiama, tuo tarpu statinio kintamojo – gali.
+
+
+
+9.	Kokius metodus abstrakčioje klasėje padarome abstrakčiais?
+Tuos, kuriuos privalės implementuoti paveldinčioji klasė. Turi atitikti tiek matomumas, parametrų tipai, return tipai.
+
+10.	Parašykite keletą pavydžių kaip gali būti aprašyta konstanta ir ji iškviesta?
+class MyClass{
+const CONSTANT = 'constant value';
+function showConstant() {
+        echo  self::CONSTANT ;
+    }
+}
+echo MyClass::CONSTANT;
+
+11.	Kada yra naudojama static žodelis?
+Static žodelis naudojamas tiems metodams ar savybėms, kurie gali būti pasiekiami neinicializuojant objekto.
+
+12.	Kaip yra objektas perduodas į metodą?
+Objektas paduodamas per klasės konstruktorių kaip argumentas.
+
+13.	Kas yra composer?
+Composer yra plačiausiai naudojamas aplikacijos lygio PHP bibliotekų manageris. Trumpai tariant, composer'is mums leidžia įsirašyti tinkamos versijos PHP paketą, taip pat, atėjus poreikiui, jį atnaujinti.
+
+14.	Parašykite komandas kurias naudosite su composeriu norėdami jį sukonfiguroti, kažką parsisiųsti ir jei reikia atnaujinti.
+composer init – paruošia aplikaciją, kad joje galimą būtų naudoti composer'į;
+composer require - atsiunčia ir įdiegia tam tikrą PHP paketą/us;
+composer update – atnaujina jau anksčiau instaliuotą PHP paketą/us.
+
+15.	Kas yra dependency injections?
+Dependency injection – tai kodo organizavimo technika, kuomet priklausantys objektai yra sukuriami kviečiančios klasės išorėje ir paduodami jai per metodo argumentus.
+
+16.	Kuo yra gerai MPA?
+MPA – tai multipage web aplikacija. MPA tipo aplikacijos yra greičiau vystomos, reikalauja mažiau resursų. Pastebėta, kad dirbant prie MPA aplikacijų nusistovi tam tikra struktūra, kuri leidžia lengvai ir lanksčiai jas vystyti.
+
+17.	Kam yra skirtas try ir catch blokas? Parašykite pavyzdį
+Kai try bloke esantis kodas išmeta exception'ą, tuomet yra vykdomas catch blokas. Tik tam yra viena sąlyga – exception'o tipas, nurodytas catch bloko skliaustuose turi sutapti su tuo, kuris buvo išmestas.
+
+function checkNum($number) {
+  if($number<0) {
+    throw new \Exception("Number must be positive");
+  }
+ }
+
+try {
+  checkNum(-2);
+}catch(\Exception $e) {
+  echo 'Message: ' .$e->getMessage();
+}
+/*
+'Message: Number must be positive
+*/
+
+18.	Ar galima klasės konstantas pasiekti globaliame lygyje?
+Taip, jeigu konstanta yra public arba protected.
+
+19.	Kaip vadinasi klasė turinti statinį metodą? Parašykite pavyzdį
+Bet kuri klasė gali turėti statinį metodą. Pvz.:
+class solution {
+     static $count;
+     public static function getCount() {
+        return self::$count++;
+    }
+}
+
+20.	Ar protected metodas gali būti pasiekiamas globaliame lygyje?
+Taip, gali.
